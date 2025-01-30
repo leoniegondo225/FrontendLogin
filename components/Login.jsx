@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { FaRegEnvelope } from "react-icons/fa"
 import { FaLock } from "react-icons/fa";
 
@@ -35,7 +36,8 @@ const Login = ({LoginSuccess}) => {
         LoginSuccess(data); // Appelle la fonction parent avec les données reçues
         
       } catch (error) {
-        setError(error.message || "Une erreur s'est produite.")
+        console.error(error); // Utile pour déboguer
+       setError("Impossible de se connecter. Veuillez réessayer plus tard."); 
     }
 
   }
@@ -65,7 +67,7 @@ const Login = ({LoginSuccess}) => {
               </div>
               <button type="submit" className="btn btn-primary w-100">Connexion</button>
             </form>
-            <p className="text-center mt-4">Pas de compte? <a href="/Signup">Inscrivez-vous</a></p>
+            <p className="text-center mt-4">Pas de compte? <Link to="/Signup">Inscrivez-vous</Link></p>
         </div>
         </div>
 

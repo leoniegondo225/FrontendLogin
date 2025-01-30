@@ -14,7 +14,7 @@ const Signup = () => {
     e.preventDefault()
 
       try {
-        const response = await fetch("https://backend-envent-app.vercel.app/api/auth/signup", {
+        const response = await fetch("https://backend-envent-app.vercel.app/api/auth/sign-up", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -29,8 +29,8 @@ const Signup = () => {
         setSuccess("Compte créé avec succès ! Vous pouvez maintenant vous connecter.");
         setError("");
       } catch (err) {
-        setError("Erreur lors de l'inscription. Veuillez réessayer.");
-        setSuccess("");
+        console.error(error); // Pour déboguer
+        setError(error.message || "Une erreur s'est produite.");
       }
   
   }
@@ -66,7 +66,7 @@ const Signup = () => {
           </div>
           <button type="submit" className="btn btn-primary w-100">S'inscrire</button>
         </form>
-        <p className="text-center mt-3">Vous avez déjà un compte ? <a href="/login">Connectez-vous</a></p>
+        <p className="text-center mt-3">Vous avez déjà un compte ? <Link to="/login">Connectez-vous</Link></p>
       </div>
     </div>
   )
