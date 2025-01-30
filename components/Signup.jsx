@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from "react"
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa"
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
 
@@ -66,7 +67,7 @@ const Signup = () => {
           </div>
           <button type="submit" className="btn btn-primary w-100">S'inscrire</button>
         </form>
-        <p className="text-center mt-3">Vous avez déjà un compte ? <Link to="/login">Connectez-vous</Link></p>
+        <p className="text-center mt-3">Vous avez déjà un compte ? <Link to="/">Connectez-vous</Link></p>
       </div>
     </div>
   )
