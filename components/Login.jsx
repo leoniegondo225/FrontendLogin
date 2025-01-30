@@ -65,7 +65,7 @@ const Login = ({LoginSuccess}) => {
               </div>
               <button type="submit" className="btn btn-primary w-100">Connexion</button>
             </form>
-            <p className="text-center mt-4">Pas de compte? <a href="#">Inscrivez-vous</a></p>
+            <p className="text-center mt-4">Pas de compte? <a href="/Signup">Inscrivez-vous</a></p>
         </div>
         </div>
 
