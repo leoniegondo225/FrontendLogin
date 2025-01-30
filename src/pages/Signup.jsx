@@ -5,33 +5,41 @@ import { Link } from 'react-router-dom';
 
 const Signup = () => {
 
-  const [name, setName] = useState("");
+  const [nom, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
+  const [load, setLoad] = useState(false)
 
   const Signup = async (e)  => {
     e.preventDefault()
 
       try {
-        const response = await fetch("https://backend-envent-app.vercel.app/api/auth/sign-up", {
+        setLoad(true)
+        const req = await fetch("https://backend-envent-app.vercel.app/api/sign-up", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Origin": "http://localhost:5173"
           },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ nom, email, password }),
         });
-        if (!response.ok) {
-          throw new Error("Erreur lors de l'inscription");
+
+        const res = await req.json()
+        if (res && res.message && res.message === "ok") {
+          localStorage.setItem("data", JSON.stringify(res.data))
+          setTimeout(() => {
+            document.getElementById("redirecte").click()
+          }, 100);
+        }  else {
+          setError(res || "Une erreur s'est produite.");
         }
-  
-        const data = await response.json();
-        setSuccess("Compte créé avec succès ! Vous pouvez maintenant vous connecter.");
-        setError("");
+        setLoad(false)
       } catch (err) {
         console.error(error); // Pour déboguer
-        setError(error.message || "Une erreur s'est produite.");
+        setError("Une erreur s'est produite.");
+        setLoad(false)
       }
   
   }
@@ -48,7 +56,7 @@ const Signup = () => {
             <label htmlFor="name" className="form-label">Nom</label>
             <div className="input-group">
               <span className="input-group-text"><FaUser /></span>
-              <input type="text" className="form-control" id="name" placeholder="Entrez votre nom" value={name} onChange={(e) => setName(e.target.value)} required/>
+              <input type="text" className="form-control" id="name" placeholder="Entrez votre nom" value={nom} onChange={(e) => setName(e.target.value)} required/>
             </div>
           </div>
           <div className="mb-3">
@@ -65,10 +73,19 @@ const Signup = () => {
               <input type="password" className="form-control" id="password" placeholder="Entrez votre mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary w-100">S'inscrire</button>
+          {!load ? <button type="submit" className="btn btn-primary w-100">S'inscrire</button>
+            : (
+              <button className="btn btn-primary" type="button" disabled>
+                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span className="visually-hidden" role="status">Traitement...</span>
+              </button>
+            )
+          }
+          
         </form>
         <p className="text-center mt-3">Vous avez déjà un compte ? <Link to="/">Connectez-vous</Link></p>
       </div>
+      <Link to="/envent-page" id="redirecte"></Link>
     </div>
   )
 }
